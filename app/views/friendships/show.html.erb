@@ -1,0 +1,51 @@
+<%= link_to "All Users", "/users" %>
+<h1>Hi
+	<%= current_user.name %>!</h1>
+
+<p>Here is your profile description:
+</p>
+<fieldset>
+	<p><%= current_user.description %></p>
+</fieldset>
+
+<p>Your Professional Network:</p>
+<fieldset>
+	<% @homies.each do |i| %>
+	<a href="/users/<%= i.user.id %>"><%= i.user.name %></a>
+	<% end %>
+</fieldset>
+
+<p>Invitations</p>
+<h5>the following people asked you to be in their network:</h5>
+<fieldset>
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @invitations.each do |i| %>
+			<tr>
+				<td>
+					<a href="/users/<%= i.user.id %>"><%= i.user.name %></a>
+				</td>
+				<td>
+					<form action="/friendships/<%= i.user.id %>" method="post">
+						<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+						<input type="hidden" name="_method" value="patch">
+						<input type="submit" value="Accept Invite">
+					</form>
+					<form action="/friendships/<%= i.user.id %>" method="post">
+						<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+						<input type="hidden" name="_method" value="delete">
+						<input type="hidden" name="friend" value="<%= i.user.id %>">
+						<input type="submit" value="Ignore">
+					</form>
+				</td>
+			</tr>
+			<% end %>
+		</tbody>
+	</table>
+</fieldset>

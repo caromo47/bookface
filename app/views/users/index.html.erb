@@ -1,0 +1,23 @@
+<%= link_to "My Profile", "/professional_profile" %>
+<h2>Users you may want to connect with:</h2>
+
+<table>
+	<thead>
+		<tr>
+			<th>Name:</th>
+			<th>Action:</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<% @users.each do |u| %>
+				<td><%= u.name %></td>
+				<td><form action="/friendships/create" method="post">
+					<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+					<input type="hidden" name="friend" value="<%= u.id %>">
+					<input type="submit" value="Connect">
+				</form></td>
+		</tr>
+			<% end %>
+	</tbody>
+</table>
